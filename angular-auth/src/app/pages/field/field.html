@@ -1,0 +1,190 @@
+<div class="page">
+
+  <!-- Header -->
+
+  <div class="page-header">
+
+    <div>
+      <h1>Fields</h1>
+      <p>Manage your farm fields</p>
+    </div>
+
+    <button class="add-btn" (click)="openForm()">
+      + Add Field
+    </button>
+
+  </div>
+
+
+  <!-- Add Field Form -->
+
+  <div class="form-box" *ngIf="showForm">
+
+    <h2>Add New Field</h2>
+
+    <div class="form-grid">
+
+      <div class="form-group">
+
+        <label>Field Name</label>
+
+        <input
+          type="text"
+          [(ngModel)]="fieldName"
+          placeholder="Example: Field F">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Area</label>
+
+        <input
+          type="number"
+          [(ngModel)]="area"
+          placeholder="Example: 6.5">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Soil Type</label>
+
+        <input
+          type="text"
+          [(ngModel)]="soilType"
+          placeholder="Example: Loamy">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Irrigation Type</label>
+
+        <input
+          type="text"
+          [(ngModel)]="irrigationType"
+          placeholder="Example: Drip">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Location</label>
+
+        <input
+          type="text"
+          [(ngModel)]="location"
+          placeholder="Example: North Farm">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Status</label>
+
+        <input
+          type="text"
+          [(ngModel)]="status"
+          placeholder="Example: Active">
+
+      </div>
+
+    </div>
+
+
+    <div class="form-buttons">
+
+      <button
+        class="save-btn"
+        (click)="addField()">
+
+        Save Field
+
+      </button>
+
+
+      <button
+        class="cancel-btn"
+        (click)="closeForm()">
+
+        Cancel
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- Field Table -->
+
+  <div class="field-table">
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>ID</th>
+          <th>Field Name</th>
+          <th>Area</th>
+          <th>Soil Type</th>
+          <th>Irrigation Type</th>
+          <th>Location</th>
+          <th>Status</th>
+        </tr>
+
+      </thead>
+
+
+      <tbody>
+
+        <tr *ngIf="loading">
+
+          <td colspan="7" class="message">
+            Loading fields...
+          </td>
+
+        </tr>
+
+
+        <tr *ngFor="let field of fields">
+
+          <td>{{ field.id }}</td>
+
+          <td>{{ field.fieldName }}</td>
+
+          <td>{{ field.area }}</td>
+
+          <td>{{ field.soilType }}</td>
+
+          <td>{{ field.irrigationType }}</td>
+
+          <td>{{ field.location }}</td>
+
+          <td>{{ field.status }}</td>
+
+        </tr>
+
+
+        <tr *ngIf="!loading && fields.length === 0">
+
+          <td colspan="7" class="message">
+            No field records found
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

@@ -1,0 +1,160 @@
+<div class="page">
+
+  <div class="page-header">
+
+    <div>
+      <h1>Expenses</h1>
+      <p>Track and manage your farm expenses</p>
+    </div>
+
+    <button
+      class="add-btn"
+      (click)="openForm()"
+      [disabled]="saving">
+
+      + Add Expense
+
+    </button>
+
+  </div>
+
+
+  <div class="form-box" *ngIf="showForm">
+
+    <h2>Add New Expense</h2>
+
+    <div class="form-grid">
+
+      <div class="form-group">
+
+        <label>Expense Type</label>
+
+        <input
+          type="text"
+          [(ngModel)]="expenseType"
+          placeholder="Example: Seeds">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Amount</label>
+
+        <input
+          type="text"
+          [(ngModel)]="amount"
+          placeholder="Example: 4500">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Expense Date</label>
+
+        <input
+          type="date"
+          [(ngModel)]="expenseDate">
+
+      </div>
+
+
+      <div class="form-group full-width">
+
+        <label>Description</label>
+
+        <input
+          type="text"
+          [(ngModel)]="description"
+          placeholder="Enter expense description">
+
+      </div>
+
+    </div>
+
+
+    <div class="form-buttons">
+
+      <button
+        class="save-btn"
+        (click)="addExpense()"
+        [disabled]="saving">
+
+        {{ saving ? 'Saving...' : 'Save Expense' }}
+
+      </button>
+
+
+      <button
+        class="cancel-btn"
+        (click)="closeForm()"
+        [disabled]="saving">
+
+        Cancel
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="expense-table">
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>ID</th>
+          <th>Expense Type</th>
+          <th>Amount</th>
+          <th>Expense Date</th>
+          <th>Description</th>
+        </tr>
+
+      </thead>
+
+
+      <tbody>
+
+        <tr *ngIf="loading">
+
+          <td colspan="5" class="message">
+            Loading expenses...
+          </td>
+
+        </tr>
+
+
+        <tr *ngFor="let expense of expenses">
+
+          <td>{{ expense.id }}</td>
+
+          <td>{{ expense.expenseType }}</td>
+
+          <td>₹{{ expense.amount }}</td>
+
+          <td>{{ expense.expenseDate }}</td>
+
+          <td>{{ expense.description }}</td>
+
+        </tr>
+
+
+        <tr *ngIf="!loading && expenses.length === 0">
+
+          <td colspan="5" class="message">
+            No expense records found
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

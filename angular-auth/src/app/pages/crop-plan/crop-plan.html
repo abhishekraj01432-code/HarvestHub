@@ -1,0 +1,127 @@
+<div class="page">
+
+  <div class="page-header">
+    <div>
+      <h1>Crop Plans</h1>
+      <p>Manage your crop planning and schedules</p>
+    </div>
+
+    <button
+      class="add-btn"
+      (click)="openForm()"
+      [disabled]="saving">
+      + Add Crop Plan
+    </button>
+  </div>
+
+  <div class="form-box" *ngIf="showForm">
+
+    <h2>Add New Crop Plan</h2>
+
+    <div class="form-grid">
+
+      <div class="form-group">
+        <label>Field Name</label>
+        <input
+          type="text"
+          [(ngModel)]="fieldName"
+          placeholder="Example: Field F">
+      </div>
+
+      <div class="form-group">
+        <label>Crop Name</label>
+        <input
+          type="text"
+          [(ngModel)]="cropName"
+          placeholder="Example: Wheat">
+      </div>
+
+      <div class="form-group">
+        <label>Sowing Date</label>
+        <input
+          type="date"
+          [(ngModel)]="sowingDate">
+      </div>
+
+      <div class="form-group">
+        <label>Expected Harvest Date</label>
+        <input
+          type="date"
+          [(ngModel)]="expectedHarvestDate">
+      </div>
+
+      <div class="form-group">
+        <label>Status</label>
+        <input
+          type="text"
+          [(ngModel)]="status"
+          placeholder="Example: Planned">
+      </div>
+
+    </div>
+
+    <div class="form-buttons">
+
+      <button
+        class="save-btn"
+        (click)="addCropPlan()"
+        [disabled]="saving">
+        {{ saving ? 'Saving...' : 'Save Crop Plan' }}
+      </button>
+
+      <button
+        class="cancel-btn"
+        (click)="closeForm()"
+        [disabled]="saving">
+        Cancel
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="crop-plan-table">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Field Name</th>
+          <th>Crop Name</th>
+          <th>Sowing Date</th>
+          <th>Expected Harvest</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngIf="loading">
+          <td colspan="6" class="message">
+            Loading crop plans...
+          </td>
+        </tr>
+
+        <tr *ngFor="let plan of cropPlans">
+          <td>{{ plan.id }}</td>
+          <td>{{ plan.fieldName }}</td>
+          <td>{{ plan.cropName }}</td>
+          <td>{{ plan.sowingDate }}</td>
+          <td>{{ plan.expectedHarvestDate }}</td>
+          <td>{{ plan.status }}</td>
+        </tr>
+
+        <tr *ngIf="!loading && cropPlans.length === 0">
+          <td colspan="6" class="message">
+            No crop plan records found
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

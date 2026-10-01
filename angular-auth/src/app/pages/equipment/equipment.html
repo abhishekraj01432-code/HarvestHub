@@ -1,0 +1,175 @@
+<div class="page">
+
+  <div class="page-header">
+
+    <div>
+      <h1>Equipment</h1>
+      <p>Manage your farm equipment and machinery</p>
+    </div>
+
+    <button
+      class="add-btn"
+      (click)="openForm()"
+      [disabled]="saving">
+
+      + Add Equipment
+
+    </button>
+
+  </div>
+
+
+  <div class="form-box" *ngIf="showForm">
+
+    <h2>Add New Equipment</h2>
+
+    <div class="form-grid">
+
+      <div class="form-group">
+
+        <label>Equipment Name</label>
+
+        <input
+          type="text"
+          [(ngModel)]="equipmentName"
+          placeholder="Example: Tractor">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Equipment Type</label>
+
+        <input
+          type="text"
+          [(ngModel)]="equipmentType"
+          placeholder="Example: Agricultural Machine">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Model</label>
+
+        <input
+          type="text"
+          [(ngModel)]="model"
+          placeholder="Example: Mahindra 575 DI">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Purchase Date</label>
+
+        <input
+          type="date"
+          [(ngModel)]="purchaseDate">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Status</label>
+
+        <input
+          type="text"
+          [(ngModel)]="status"
+          placeholder="Example: Active">
+
+      </div>
+
+    </div>
+
+
+    <div class="form-buttons">
+
+      <button
+        class="save-btn"
+        (click)="addEquipment()"
+        [disabled]="saving">
+
+        {{ saving ? 'Saving...' : 'Save Equipment' }}
+
+      </button>
+
+
+      <button
+        class="cancel-btn"
+        (click)="closeForm()"
+        [disabled]="saving">
+
+        Cancel
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="equipment-table">
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>ID</th>
+          <th>Equipment Name</th>
+          <th>Equipment Type</th>
+          <th>Model</th>
+          <th>Purchase Date</th>
+          <th>Status</th>
+        </tr>
+
+      </thead>
+
+
+      <tbody>
+
+        <tr *ngIf="loading">
+
+          <td colspan="6" class="message">
+            Loading equipment...
+          </td>
+
+        </tr>
+
+
+        <tr *ngFor="let item of equipment">
+
+          <td>{{ item.id }}</td>
+
+          <td>{{ item.equipmentName }}</td>
+
+          <td>{{ item.equipmentType }}</td>
+
+          <td>{{ item.model }}</td>
+
+          <td>{{ item.purchaseDate }}</td>
+
+          <td>{{ item.status }}</td>
+
+        </tr>
+
+
+        <tr *ngIf="!loading && equipment.length === 0">
+
+          <td colspan="6" class="message">
+            No equipment records found
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

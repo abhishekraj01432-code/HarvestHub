@@ -1,0 +1,154 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f7f4;
+}
+
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  background: #173b2a;
+  color: white;
+  padding: 25px 15px;
+}
+
+.sidebar h2 {
+  margin: 0 0 30px;
+  text-align: center;
+}
+
+.sidebar a {
+  display: block;
+  padding: 13px 15px;
+  margin: 5px 0;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+  background: #2f6b48;
+}
+
+/* Main area */
+.main-content {
+  flex: 1;
+  padding: 30px;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+header h1 {
+  margin: 0;
+  color: #173b2a;
+  font-size: 32px;
+}
+
+header p {
+  color: #666;
+}
+
+header button {
+  background: #2f7d4a;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+header button:hover {
+  background: #24623a;
+}
+
+/* Cards */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  padding: 22px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card h3 {
+  margin: 0;
+  color: #666;
+  font-size: 15px;
+}
+
+.card h2 {
+  margin: 15px 0 8px;
+  color: #173b2a;
+  font-size: 28px;
+}
+
+.card p {
+  margin: 0;
+  color: #888;
+}
+
+/* Welcome */
+.welcome {
+  background: white;
+  margin-top: 25px;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.welcome h2 {
+  margin-top: 0;
+  color: #173b2a;
+}
+
+.welcome p {
+  color: #666;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sidebar {
+    width: 200px;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}

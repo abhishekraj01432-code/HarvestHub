@@ -1,0 +1,189 @@
+<div class="page">
+
+  <div class="page-header">
+
+    <div>
+      <h1>Maintenance</h1>
+      <p>Manage equipment maintenance and service records</p>
+    </div>
+
+    <button
+      class="add-btn"
+      (click)="openForm()"
+      [disabled]="saving">
+
+      + Add Maintenance
+
+    </button>
+
+  </div>
+
+
+  <div class="form-box" *ngIf="showForm">
+
+    <h2>Add New Maintenance</h2>
+
+    <div class="form-grid">
+
+      <div class="form-group">
+
+        <label>Equipment Name</label>
+
+        <input
+          type="text"
+          [(ngModel)]="equipmentName"
+          placeholder="Example: Tractor">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Maintenance Date</label>
+
+        <input
+          type="date"
+          [(ngModel)]="maintenanceDate">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Next Maintenance Date</label>
+
+        <input
+          type="date"
+          [(ngModel)]="nextMaintenanceDate">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Maintenance Type</label>
+
+        <input
+          type="text"
+          [(ngModel)]="maintenanceType"
+          placeholder="Example: Engine Service">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Cost</label>
+
+        <input
+          type="text"
+          [(ngModel)]="cost"
+          placeholder="Example: 4500">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Status</label>
+
+        <input
+          type="text"
+          [(ngModel)]="status"
+          placeholder="Example: Completed">
+
+      </div>
+
+    </div>
+
+
+    <div class="form-buttons">
+
+      <button
+        class="save-btn"
+        (click)="addMaintenance()"
+        [disabled]="saving">
+
+        {{ saving ? 'Saving...' : 'Save Maintenance' }}
+
+      </button>
+
+
+      <button
+        class="cancel-btn"
+        (click)="closeForm()"
+        [disabled]="saving">
+
+        Cancel
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="maintenance-table">
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>ID</th>
+          <th>Equipment Name</th>
+          <th>Maintenance Date</th>
+          <th>Next Maintenance</th>
+          <th>Maintenance Type</th>
+          <th>Cost</th>
+          <th>Status</th>
+        </tr>
+
+      </thead>
+
+
+      <tbody>
+
+        <tr *ngIf="loading">
+
+          <td colspan="7" class="message">
+            Loading maintenance records...
+          </td>
+
+        </tr>
+
+
+        <tr *ngFor="let maintenance of maintenances">
+
+          <td>{{ maintenance.id }}</td>
+
+          <td>{{ maintenance.equipmentName }}</td>
+
+          <td>{{ maintenance.maintenanceDate }}</td>
+
+          <td>{{ maintenance.nextMaintenanceDate }}</td>
+
+          <td>{{ maintenance.maintenanceType }}</td>
+
+          <td>₹{{ maintenance.cost }}</td>
+
+          <td>{{ maintenance.status }}</td>
+
+        </tr>
+
+
+        <tr *ngIf="!loading && maintenances.length === 0">
+
+          <td colspan="7" class="message">
+            No maintenance records found
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

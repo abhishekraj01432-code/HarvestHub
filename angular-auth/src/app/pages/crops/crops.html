@@ -1,0 +1,168 @@
+<div class="page">
+
+  <!-- Header -->
+
+  <div class="page-header">
+
+    <div>
+      <h1>Crops</h1>
+      <p>Manage your crops and crop information</p>
+    </div>
+
+    <button class="add-btn" (click)="openForm()">
+      + Add Crop
+    </button>
+
+  </div>
+
+
+  <!-- Add Crop Form -->
+
+  <div class="form-box" *ngIf="showForm">
+
+    <h2>Add New Crop</h2>
+
+    <div class="form-grid">
+
+      <div class="form-group">
+
+        <label>Crop Name</label>
+
+        <input
+          type="text"
+          [(ngModel)]="cropName"
+          placeholder="Enter crop name">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Crop Type</label>
+
+        <input
+          type="text"
+          [(ngModel)]="cropType"
+          placeholder="Enter crop type">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Season</label>
+
+        <input
+          type="text"
+          [(ngModel)]="season"
+          placeholder="Example: Rabi">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Duration</label>
+
+        <input
+          type="text"
+          [(ngModel)]="duration"
+          placeholder="Example: 120 days">
+
+      </div>
+
+    </div>
+
+
+    <div class="form-buttons">
+
+      <button
+        class="save-btn"
+        (click)="addCrop()">
+
+        Save Crop
+
+      </button>
+
+
+      <button
+        class="cancel-btn"
+        (click)="closeForm()">
+
+        Cancel
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- Crop Table -->
+
+  <div class="crop-table">
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>ID</th>
+          <th>Crop Name</th>
+          <th>Crop Type</th>
+          <th>Season</th>
+          <th>Duration</th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody>
+
+        <!-- Loading -->
+
+        <tr *ngIf="loading">
+
+          <td colspan="5" class="message">
+            Loading crops...
+          </td>
+
+        </tr>
+
+
+        <!-- Data -->
+
+        <tr *ngFor="let crop of crops">
+
+          <td>{{ crop.id }}</td>
+
+          <td>{{ crop.cropName }}</td>
+
+          <td>{{ crop.cropType }}</td>
+
+          <td>{{ crop.season }}</td>
+
+          <td>{{ crop.duration }}</td>
+
+        </tr>
+
+
+        <!-- Empty -->
+
+        <tr *ngIf="!loading && crops.length === 0">
+
+          <td colspan="5" class="message">
+            No crop records found
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

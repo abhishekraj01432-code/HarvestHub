@@ -1,0 +1,19 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Spring Boot / Maven
+auth-backend/target/
+auth-backend/.idea/
+
+# Angular
+angular-auth/node_modules/
+angular-auth/dist/
+
+# Environment files
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
