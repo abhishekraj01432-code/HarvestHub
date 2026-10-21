@@ -1,3 +1,4 @@
+
 package com.hcl.harvesthub.controller;
 
 import com.hcl.harvesthub.model.Activity;
@@ -16,57 +17,68 @@ public class ActivityController {
     private ActivityService service;
 
     @PostMapping("/add")
-    public Activity add(@RequestBody Activity activity) {
-        return service.save(activity);
+    public Activity add(
+            @RequestBody Activity activity,
+            @RequestParam Long userId) {
+        return service.save(activity, userId);
     }
 
     @PostMapping("/addAll")
-    public List<Activity> addAll(@RequestBody List<Activity> activities) {
-        return service.saveAll(activities);
+    public List<Activity> addAll(
+            @RequestBody List<Activity> activities,
+            @RequestParam Long userId) {
+        return service.saveAll(activities, userId);
     }
 
     @GetMapping("/all")
-    public List<Activity> all() {
-        return service.getAll();
+    public List<Activity> all(@RequestParam Long userId) {
+        return service.getAll(userId);
     }
 
     @GetMapping("/id/{id}")
-    public Activity getById(@PathVariable Long id) {
-        return service.getById(id);
+    public Activity getById(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
+        return service.getById(id, userId);
     }
 
     @PutMapping("/update/{id}")
     public Activity update(
             @PathVariable Long id,
-            @RequestBody Activity activity) {
-
-        return service.update(id, activity);
+            @RequestBody Activity activity,
+            @RequestParam Long userId) {
+        return service.update(id, activity, userId);
     }
 
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        service.delete(id);
-        return "Activity deleted successfully";
+    public String delete(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
+        return service.delete(id, userId);
     }
 
     @PostMapping("/post/{id}")
-    public Activity postById(@PathVariable Long id) {
-        return service.getById(id);
+    public Activity postById(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
+        return service.getById(id, userId);
     }
 
     @DeleteMapping("/deleteAll")
-    public String deleteAll() {
-        service.deleteAll();
+    public String deleteAll(@RequestParam Long userId) {
+        service.deleteAll(userId);
         return "All activities deleted successfully";
     }
 
     @GetMapping("/search")
-    public List<Activity> search(@RequestParam String activityName) {
-        return service.search(activityName);
+    public List<Activity> search(
+            @RequestParam String activityName,
+            @RequestParam Long userId) {
+        return service.search(activityName, userId);
     }
 
     @GetMapping("/count")
-    public long count() {
-        return service.getAll().size();
+    public long count(@RequestParam Long userId) {
+        return service.getAll(userId).size();
     }
 }

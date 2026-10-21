@@ -1,3 +1,4 @@
+
 package com.hcl.harvesthub.controller;
 
 import com.hcl.harvesthub.model.FarmProfile;
@@ -16,57 +17,68 @@ public class FarmProfileController {
     private FarmProfileService service;
 
     @PostMapping("/add")
-    public FarmProfile add(@RequestBody FarmProfile farmProfile) {
-        return service.save(farmProfile);
+    public FarmProfile add(
+            @RequestBody FarmProfile farmProfile,
+            @RequestParam Long userId) {
+        return service.save(farmProfile, userId);
     }
 
     @PostMapping("/addAll")
-    public List<FarmProfile> addAll(@RequestBody List<FarmProfile> farmProfiles) {
-        return service.saveAll(farmProfiles);
+    public List<FarmProfile> addAll(
+            @RequestBody List<FarmProfile> farmProfiles,
+            @RequestParam Long userId) {
+        return service.saveAll(farmProfiles, userId);
     }
 
     @GetMapping("/all")
-    public List<FarmProfile> all() {
-        return service.getAll();
+    public List<FarmProfile> all(@RequestParam Long userId) {
+        return service.getAll(userId);
     }
 
     @GetMapping("/id/{id}")
-    public FarmProfile getById(@PathVariable Long id) {
-        return service.getById(id);
+    public FarmProfile getById(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
+        return service.getById(id, userId);
     }
 
     @PutMapping("/update/{id}")
     public FarmProfile update(
             @PathVariable Long id,
-            @RequestBody FarmProfile farmProfile) {
-
-        return service.update(id, farmProfile);
+            @RequestBody FarmProfile farmProfile,
+            @RequestParam Long userId) {
+        return service.update(id, farmProfile, userId);
     }
 
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        service.delete(id);
-        return "Farm profile deleted successfully";
+    public String delete(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
+        return service.delete(id, userId);
     }
 
     @PostMapping("/post/{id}")
-    public FarmProfile postById(@PathVariable Long id) {
-        return service.getById(id);
+    public FarmProfile postById(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
+        return service.getById(id, userId);
     }
 
     @DeleteMapping("/deleteAll")
-    public String deleteAll() {
-        service.deleteAll();
+    public String deleteAll(@RequestParam Long userId) {
+        service.deleteAll(userId);
         return "All farm profiles deleted successfully";
     }
 
     @GetMapping("/search")
-    public List<FarmProfile> search(@RequestParam String farmName) {
-        return service.search(farmName);
+    public List<FarmProfile> search(
+            @RequestParam String farmName,
+            @RequestParam Long userId) {
+        return service.search(farmName, userId);
     }
 
     @GetMapping("/count")
-    public long count() {
-        return service.getAll().size();
+    public long count(@RequestParam Long userId) {
+        return service.getAll(userId).size();
     }
 }

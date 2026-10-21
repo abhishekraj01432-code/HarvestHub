@@ -20,6 +20,8 @@ export class Crops {
   season = '';
   duration = '';
 
+  userId = localStorage.getItem('userId');
+
   constructor(
     private http: HttpClient,
     private cdr: ChangeDetectorRef
@@ -27,96 +29,181 @@ export class Crops {
     this.getCrops();
   }
 
+  // Get All Crops
   getCrops() {
 
-    this.http.get<any[]>('http://localhost:8083/crop/all')
-      .subscribe({
+    if (!this.userId) {
+      alert('User not logged in');
+      this.loading = false;
+      return;
+    }
 
-        next: (data) => {
-          console.log('Crop Data:', data);
+    this.http.get<any[]>(
+      `http://localhost:8083/crop/all?userId=${this.userId}`
+    )
+    .subscribe({
 
-          this.crops = data;
-          this.loading = false;
+      next: (data) => {
 
-          this.cdr.detectChanges();
-        },
+        console.log('Crop Data:', data);
 
-        error: (error) => {
-          console.log('Crop Error:', error);
+        this.crops = data;
+        this.loading = false;
 
-          this.loading = false;
+        this.cdr.detectChanges();
 
-          this.cdr.detectChanges();
-        }
+      },
 
-      });
+      error: (error) => {
+
+        console.log('Crop Error:', error);
+
+        this.loading = false;
+
+        this.cdr.detectChanges();
+
+      }
+
+    });
   }
 
+
+  // Open Form
   openForm() {
     this.showForm = true;
   }
 
+
+  // Close Form
   closeForm() {
+
     this.showForm = false;
+
+    this.clearForm();
+  }
+
+
+  // Clear Form
+  clearForm() {
 
     this.cropName = '';
     this.cropType = '';
     this.season = '';
     this.duration = '';
+
   }
 
+
+  // Add Crop
   addCrop() {
 
-  if (
-    this.cropName === '' ||
-    this.cropType === '' ||
-    this.season === '' ||
-    this.duration === ''
-  ) {
-    alert('Please fill all fields');
-    return;
+    if (
+      this.cropName.trim() === '' ||
+      this.cropType.trim() === '' ||
+      this.season.trim() === '' ||
+      this.duration.trim() === ''
+    ) {
+
+      alert('Please fill all fields');
+
+      return;
+    }
+
+    if (!this.userId) {
+
+      alert('User not logged in');
+
+      return;
+    }
+
+
+    const crop = {
+
+      cropName: this.cropName,
+      cropType: this.cropType,
+      season: this.season,
+      duration: this.duration
+
+    };
+
+
+    this.http.post(
+      `http://localhost:8083/crop/add?userId=${this.userId}`,
+      crop
+    )
+    .subscribe({
+
+      next: (data) => {
+
+        console.log('Crop Added:', data);
+
+        alert('Crop added successfully');
+
+        this.clearForm();
+
+        this.showForm = false;
+
+        this.getCrops();
+
+      },
+
+      error: (error) => {
+
+        console.log('Add Crop Error:', error);
+
+        alert('Failed to add crop');
+
+      }
+
+    });
+
   }
 
-  const crop = {
-    cropName: this.cropName,
-    cropType: this.cropType,
-    season: this.season,
-    duration: this.duration
-  };
 
-  this.http.post(
-    'http://localhost:8083/crop/add',
-    crop
-  )
-  .subscribe({
+  // Delete Crop
+  deleteCrop(id: number) {
 
-    next: (data) => {
+    if (!confirm('Are you sure you want to delete this crop?')) {
 
-      console.log('Crop Added:', data);
-
-      this.showForm = false;
-
-      this.cropName = '';
-      this.cropType = '';
-      this.season = '';
-      this.duration = '';
-
-      this.getCrops();
-
-      this.cdr.detectChanges();
-
-      alert('Crop added successfully');
-
-    },
-
-    error: (error) => {
-
-      console.log('Add Crop Error:', error);
-
-      alert('Failed to add crop');
+      return;
 
     }
 
-  });
-}
+    if (!this.userId) {
+
+      alert('User not logged in');
+
+      return;
+
+    }
+
+
+    this.http.delete(
+      `http://localhost:8083/crop/delete/${id}?userId=${this.userId}`,
+      { responseType: 'text' }
+    )
+    .subscribe({
+
+      next: (data) => {
+
+        console.log('Delete Response:', data);
+
+        alert('Crop deleted successfully');
+
+        this.getCrops();
+
+      },
+
+      error: (error) => {
+
+        console.log('Delete Crop Error:', error);
+
+        alert('Failed to delete crop');
+
+      }
+
+    });
+
+  }
+
 }

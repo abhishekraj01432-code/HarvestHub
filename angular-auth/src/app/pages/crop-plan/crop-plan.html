@@ -1,5 +1,7 @@
+
 <div class="page">
 
+  <!-- Header -->
   <div class="page-header">
     <div>
       <h1>Crop Plans</h1>
@@ -7,6 +9,7 @@
     </div>
 
     <button
+      type="button"
       class="add-btn"
       (click)="openForm()"
       [disabled]="saving">
@@ -14,6 +17,7 @@
     </button>
   </div>
 
+  <!-- Add Crop Plan Form -->
   <div class="form-box" *ngIf="showForm">
 
     <h2>Add New Crop Plan</h2>
@@ -25,7 +29,7 @@
         <input
           type="text"
           [(ngModel)]="fieldName"
-          placeholder="Example: Field F">
+          placeholder="Example: North Field">
       </div>
 
       <div class="form-group">
@@ -52,17 +56,22 @@
 
       <div class="form-group">
         <label>Status</label>
-        <input
-          type="text"
-          [(ngModel)]="status"
-          placeholder="Example: Planned">
+        <select [(ngModel)]="status">
+          <option value="">Select Status</option>
+          <option value="Planned">Planned</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+          <option value="Delayed">Delayed</option>
+        </select>
       </div>
 
     </div>
 
+    <!-- Form Buttons -->
     <div class="form-buttons">
 
       <button
+        type="button"
         class="save-btn"
         (click)="addCropPlan()"
         [disabled]="saving">
@@ -70,6 +79,7 @@
       </button>
 
       <button
+        type="button"
         class="cancel-btn"
         (click)="closeForm()"
         [disabled]="saving">
@@ -80,6 +90,7 @@
 
   </div>
 
+  <!-- Crop Plan Table -->
   <div class="crop-plan-table">
 
     <table>
@@ -92,28 +103,43 @@
           <th>Sowing Date</th>
           <th>Expected Harvest</th>
           <th>Status</th>
+          <th>Action</th>
         </tr>
       </thead>
 
       <tbody>
 
+        <!-- Loading -->
         <tr *ngIf="loading">
-          <td colspan="6" class="message">
+          <td colspan="7" class="message">
             Loading crop plans...
           </td>
         </tr>
 
-        <tr *ngFor="let plan of cropPlans">
-          <td>{{ plan.id }}</td>
+        <!-- Crop Plan Data -->
+        <tr *ngFor="let plan of cropPlans; let i = index">
+
+          <td>{{ i + 1 }}</td>
           <td>{{ plan.fieldName }}</td>
           <td>{{ plan.cropName }}</td>
           <td>{{ plan.sowingDate }}</td>
           <td>{{ plan.expectedHarvestDate }}</td>
           <td>{{ plan.status }}</td>
+
+          <td>
+            <button
+              type="button"
+              class="delete-btn"
+              (click)="deleteCropPlan(plan.id)">
+              Delete
+            </button>
+          </td>
+
         </tr>
 
+        <!-- Empty -->
         <tr *ngIf="!loading && cropPlans.length === 0">
-          <td colspan="6" class="message">
+          <td colspan="7" class="message">
             No crop plan records found
           </td>
         </tr>

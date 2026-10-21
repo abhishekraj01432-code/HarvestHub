@@ -173,6 +173,22 @@
   padding: 25px !important;
 }
 
+.delete-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.delete-btn:hover {
+  background: #b02a37;
+  transform: translateY(-1px);
+}
+
 @media (max-width: 700px) {
 
   .page-header {

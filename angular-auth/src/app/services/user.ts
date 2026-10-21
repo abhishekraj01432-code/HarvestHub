@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,12 +18,15 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   signup(user: any) {
-    return this.http.post(`${this.apiUrl}/signup`, user);
+    return this.http.post<User>(
+      `${this.apiUrl}/signup`,
+      user
+    );
   }
 
   login(email: string, password: string) {
-    return this.http.post(
-      `${this.apiUrl}/login?email=${email}&password=${password}`,
+    return this.http.post<User>(
+      `${this.apiUrl}/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`,
       {}
     );
   }

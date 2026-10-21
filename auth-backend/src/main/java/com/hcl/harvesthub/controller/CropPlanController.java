@@ -1,3 +1,4 @@
+
 package com.hcl.harvesthub.controller;
 
 import com.hcl.harvesthub.model.CropPlan;
@@ -16,57 +17,68 @@ public class CropPlanController {
     private CropPlanService service;
 
     @PostMapping("/add")
-    public CropPlan add(@RequestBody CropPlan cropPlan) {
-        return service.save(cropPlan);
+    public CropPlan add(
+            @RequestBody CropPlan cropPlan,
+            @RequestParam Long userId) {
+        return service.save(cropPlan, userId);
     }
 
     @PostMapping("/addAll")
-    public List<CropPlan> addAll(@RequestBody List<CropPlan> cropPlans) {
-        return service.saveAll(cropPlans);
+    public List<CropPlan> addAll(
+            @RequestBody List<CropPlan> cropPlans,
+            @RequestParam Long userId) {
+        return service.saveAll(cropPlans, userId);
     }
 
     @GetMapping("/all")
-    public List<CropPlan> all() {
-        return service.getAll();
+    public List<CropPlan> all(@RequestParam Long userId) {
+        return service.getAll(userId);
     }
 
     @GetMapping("/id/{id}")
-    public CropPlan getById(@PathVariable Long id) {
-        return service.getById(id);
+    public CropPlan getById(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
+        return service.getById(id, userId);
     }
 
     @PutMapping("/update/{id}")
     public CropPlan update(
             @PathVariable Long id,
-            @RequestBody CropPlan cropPlan) {
-
-        return service.update(id, cropPlan);
+            @RequestBody CropPlan cropPlan,
+            @RequestParam Long userId) {
+        return service.update(id, cropPlan, userId);
     }
 
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        service.delete(id);
-        return "Crop plan deleted successfully";
+    public String delete(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
+        return service.delete(id, userId);
     }
 
     @PostMapping("/post/{id}")
-    public CropPlan postById(@PathVariable Long id) {
-        return service.getById(id);
+    public CropPlan postById(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
+        return service.getById(id, userId);
     }
 
     @DeleteMapping("/deleteAll")
-    public String deleteAll() {
-        service.deleteAll();
+    public String deleteAll(@RequestParam Long userId) {
+        service.deleteAll(userId);
         return "All crop plans deleted successfully";
     }
 
     @GetMapping("/search")
-    public List<CropPlan> search(@RequestParam String cropName) {
-        return service.search(cropName);
+    public List<CropPlan> search(
+            @RequestParam String cropName,
+            @RequestParam Long userId) {
+        return service.search(cropName, userId);
     }
 
     @GetMapping("/count")
-    public long count() {
-        return service.getAll().size();
+    public long count(@RequestParam Long userId) {
+        return service.getAll(userId).size();
     }
 }

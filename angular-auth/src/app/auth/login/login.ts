@@ -32,7 +32,16 @@ export class Login {
 
         if (user) {
 
+          // Login status
           localStorage.setItem('isLoggedIn', 'true');
+
+          // Logged-in user's details
+          localStorage.setItem('userId', user.id.toString());
+          localStorage.setItem('userName', user.name);
+          localStorage.setItem('userEmail', user.email);
+
+          console.log('Logged-in User:', user);
+          console.log('User ID:', user.id);
 
           alert('Login successful');
 
@@ -45,11 +54,14 @@ export class Login {
         }
       },
 
-      error: () => {
+      error: (error) => {
+
+        console.log('Login Error:', error);
+
         alert('Login failed');
+
       }
 
     });
   }
 }
-

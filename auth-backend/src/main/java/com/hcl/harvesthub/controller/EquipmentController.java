@@ -1,7 +1,9 @@
+
 package com.hcl.harvesthub.controller;
 
 import com.hcl.harvesthub.model.Equipment;
 import com.hcl.harvesthub.service.EquipmentService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,57 +18,67 @@ public class EquipmentController {
     private EquipmentService service;
 
     @PostMapping("/add")
-    public Equipment add(@RequestBody Equipment equipment) {
-        return service.save(equipment);
+    public Equipment add(
+            @RequestBody Equipment equipment,
+            @RequestParam Long userId) {
+        return service.save(equipment, userId);
     }
 
     @PostMapping("/addAll")
-    public List<Equipment> addAll(@RequestBody List<Equipment> equipment) {
-        return service.saveAll(equipment);
+    public List<Equipment> addAll(
+            @RequestBody List<Equipment> equipment,
+            @RequestParam Long userId) {
+        return service.saveAll(equipment, userId);
     }
 
     @GetMapping("/all")
-    public List<Equipment> all() {
-        return service.getAll();
+    public List<Equipment> all(@RequestParam Long userId) {
+        return service.getAll(userId);
     }
 
     @GetMapping("/id/{id}")
-    public Equipment getById(@PathVariable Long id) {
-        return service.getById(id);
+    public Equipment getById(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
+        return service.getById(id, userId);
     }
 
     @PutMapping("/update/{id}")
     public Equipment update(
             @PathVariable Long id,
-            @RequestBody Equipment equipment) {
-
-        return service.update(id, equipment);
+            @RequestBody Equipment equipment,
+            @RequestParam Long userId) {
+        return service.update(id, equipment, userId);
     }
 
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        service.delete(id);
-        return "Equipment deleted successfully";
+    public String delete(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
+        return service.delete(id, userId);
     }
 
     @PostMapping("/post/{id}")
-    public Equipment postById(@PathVariable Long id) {
-        return service.getById(id);
+    public Equipment postById(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
+        return service.getById(id, userId);
     }
 
     @DeleteMapping("/deleteAll")
-    public String deleteAll() {
-        service.deleteAll();
-        return "All equipment records deleted successfully";
+    public String deleteAll(@RequestParam Long userId) {
+        return service.deleteAll(userId);
     }
 
     @GetMapping("/search")
-    public List<Equipment> search(@RequestParam String equipmentName) {
-        return service.search(equipmentName);
+    public List<Equipment> search(
+            @RequestParam String equipmentName,
+            @RequestParam Long userId) {
+        return service.search(equipmentName, userId);
     }
 
     @GetMapping("/count")
-    public long count() {
-        return service.getAll().size();
+    public long count(@RequestParam Long userId) {
+        return service.count(userId);
     }
 }

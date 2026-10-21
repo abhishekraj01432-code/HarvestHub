@@ -1,56 +1,141 @@
-<div class="dashboard-content">
+<div class="dashboard-container">
 
-  <header>
-    <div>
-      <h1>Dashboard</h1>
-      <p>Farm Management & Crop Planning</p>
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="header-title">
+      <div class="header-logo">🌾</div>
+      <div>
+        <span class="eyebrow">FARM OVERVIEW</span>
+        <h1>Dashboard</h1>
+        <p>Manage your farm smarter, from one place.</p>
+      </div>
     </div>
 
-    <button class="logout-btn" (click)="logout()">Logout</button>
+    <button class="logout-btn" (click)="logout()">↪ Logout</button>
   </header>
 
-
-  <section class="cards">
-
-    <div class="card">
-      <h3>Total Crops</h3>
-      <h2 id="cropCount">0</h2>
-      <p>Active crops</p>
+  <!-- Welcome Banner -->
+  <section class="welcome-banner">
+    <div class="banner-content">
+      <span class="banner-eyebrow">🌱 HARVESTHUB FARM MANAGEMENT</span>
+      <h2>Grow smarter.<br><span>Harvest better.</span></h2>
+      <p>
+        Manage your crops, fields, expenses, harvests and farm operations
+        from one powerful platform.
+      </p>
     </div>
 
-
-    <div class="card">
-      <h3>Total Fields</h3>
-      <h2 id="fieldCount">0</h2>
-      <p>Managed fields</p>
+    <div class="banner-art" aria-hidden="true">
+      <div class="sun"></div>
+      <div class="plant">🌱</div>
+      <div class="plant-brand">🌾</div>
     </div>
-
-
-    <div class="card">
-      <h3>Total Expenses</h3>
-      <h2 id="expenseTotal">₹0</h2>
-      <p>This season</p>
-    </div>
-
-
-    <div class="card">
-      <h3>Harvest Yield</h3>
-      <h2 id="harvestYield">0</h2>
-      <p>Total production</p>
-    </div>
-
   </section>
 
+  <!-- Farm Overview -->
+  <section class="overview-section">
+    <div class="overview-heading">
+      <div>
+        <span class="eyebrow">OVERVIEW</span>
+        <h2>Farm at a glance</h2>
+      </div>
+      <span class="live-badge"><span></span> Live data</span>
+    </div>
 
-  <section class="welcome">
+    <div class="stats-grid">
 
-    <h2>Welcome to HarvestHub 🌱</h2>
+      <a routerLink="/crops" class="stat-card crops-card">
+        <div class="stat-top">
+          <div class="stat-icon">🌱</div>
+          <span class="stat-arrow">↗</span>
+        </div>
+        <p>Total Crops</p>
+        <h3>{{ cropCount }}</h3>
+        <small>Active crops</small>
+      </a>
 
-    <p>
-      Manage crops, fields, activities, expenses, harvest records,
-      equipment and crop rotation from one place.
-    </p>
+      <a routerLink="/fields" class="stat-card fields-card">
+        <div class="stat-top">
+          <div class="stat-icon">▦</div>
+          <span class="stat-arrow">↗</span>
+        </div>
+        <p>Total Fields</p>
+        <h3>{{ fieldCount }}</h3>
+        <small>Managed fields</small>
+      </a>
 
+      <a routerLink="/expenses" class="stat-card expenses-card">
+        <div class="stat-top">
+          <div class="stat-icon">₹</div>
+          <span class="stat-arrow">↗</span>
+        </div>
+        <p>Total Expenses</p>
+        <h3>₹{{ totalExpense.toLocaleString('en-IN') }}</h3>
+        <small>Total recorded expenses</small>
+      </a>
+
+      <a routerLink="/harvest" class="stat-card harvest-card">
+        <div class="stat-top">
+          <div class="stat-icon">🌾</div>
+          <span class="stat-arrow">↗</span>
+        </div>
+        <p>Harvest Yield</p>
+        <h3>{{ harvestYield.toLocaleString('en-IN') }}</h3>
+        <small>Total production</small>
+      </a>
+
+    </div>
   </section>
+
+  <!-- Lower Dashboard Sections -->
+  <div class="bottom-grid">
+
+    <section class="info-panel">
+      <div class="panel-icon">🌿</div>
+      <span class="eyebrow">FARM MANAGEMENT</span>
+      <h2>Welcome to HarvestHub</h2>
+      <p>
+        Everything you need to manage your farm efficiently in one place.
+        Monitor crops, fields, expenses, equipment, harvest records and
+        crop rotation with ease.
+      </p>
+
+      <div class="management-links">
+        <a routerLink="/crop-plans">Crop Plans <span>↗</span></a>
+        <a routerLink="/activities">Farm Activities <span>↗</span></a>
+        <a routerLink="/equipment">Equipment <span>↗</span></a>
+        <a routerLink="/maintenance">Maintenance <span>↗</span></a>
+        <a routerLink="/rotation">Crop Rotation <span>↗</span></a>
+      </div>
+    </section>
+
+    <section class="info-panel season-panel">
+      <div class="season-heading">
+        <div>
+          <span class="eyebrow">FARM STATUS</span>
+          <h2>Season overview</h2>
+        </div>
+        <span class="active-badge">● Active</span>
+      </div>
+
+      <div class="season-visual">
+        <div class="season-circle">🌱</div>
+      </div>
+
+      <div class="progress-heading">
+        <span>Farm progress</span>
+        <strong>{{ progress }}%</strong>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" [style.width.%]="progress"></div>
+      </div>
+
+      <p class="season-note">
+        Keep your farm records updated to monitor your progress.
+      </p>
+    </section>
+
+  </div>
 
 </div>

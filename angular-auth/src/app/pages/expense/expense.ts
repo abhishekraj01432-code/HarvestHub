@@ -1,3 +1,4 @@
+
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -5,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-expense',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './expense.html',
   styleUrl: './expense.css'
@@ -12,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 export class Expense {
 
   expenses: any[] = [];
+
   loading = true;
   showForm = false;
   saving = false;
@@ -20,6 +23,10 @@ export class Expense {
   amount = '';
   expenseDate = '';
   description = '';
+
+  private apiUrl = 'http://localhost:8083/expense';
+
+  private userId = Number(localStorage.getItem('userId'));
 
   constructor(
     private http: HttpClient,
@@ -30,29 +37,31 @@ export class Expense {
 
   getExpenses() {
 
+    if (!this.userId) {
+      this.loading = false;
+      alert('User not logged in. Please login again.');
+      return;
+    }
+
     this.loading = true;
 
-    this.http.get<any[]>('http://localhost:8083/expense/all')
-      .subscribe({
-        next: (data) => {
+    this.http.get<any[]>(
+      `${this.apiUrl}/all?userId=${this.userId}`
+    ).subscribe({
 
-          console.log('Expense Data:', data);
+      next: (data) => {
+        this.expenses = data;
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
 
-          this.expenses = data;
-          this.loading = false;
+      error: (error) => {
+        console.log('Expense Error:', error);
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
 
-          this.cdr.detectChanges();
-        },
-
-        error: (error) => {
-
-          console.log('Expense Error:', error);
-
-          this.loading = false;
-
-          this.cdr.detectChanges();
-        }
-      });
+    });
   }
 
   openForm() {
@@ -66,7 +75,10 @@ export class Expense {
     }
 
     this.showForm = false;
+    this.resetForm();
+  }
 
+  resetForm() {
     this.expenseType = '';
     this.amount = '';
     this.expenseDate = '';
@@ -79,58 +91,56 @@ export class Expense {
       return;
     }
 
-    if (
-      this.expenseType.trim() === '' ||
-      this.amount === '' ||
-      this.expenseDate === '' ||
-      this.description.trim() === ''
-    ) {
+    if (!this.userId) {
+      alert('Please login again.');
+      return;
+    }
 
-      alert('Please fill all fields');
+
+if (
+  !this.expenseType.trim() ||
+  this.amount === '' ||
+  this.amount === null ||
+  this.amount === undefined ||
+  !this.expenseDate ||
+  !this.description.trim()
+) {
+  alert('Please fill all fields');
+  return;
+}
+
+
+    const expenseAmount = Number(this.amount);
+
+    if (!Number.isFinite(expenseAmount) || expenseAmount <= 0) {
+      alert('Please enter a valid amount greater than zero');
       return;
     }
 
     this.saving = true;
 
     const expense = {
-
-      expenseType: this.expenseType,
-      amount: Number(this.amount),
+      expenseType: this.expenseType.trim(),
+      amount: expenseAmount,
       expenseDate: this.expenseDate,
-      description: this.description
-
+      description: this.description.trim()
     };
 
     this.http.post<any>(
-      'http://localhost:8083/expense/add',
+      `${this.apiUrl}/add?userId=${this.userId}`,
       expense
-    )
-    .subscribe({
+    ).subscribe({
 
       next: (data) => {
 
         console.log('Expense Added:', data);
 
-        // Add newly saved record directly to table
-        this.expenses.push(data);
-
-        // Close form
         this.showForm = false;
-
-        // Clear fields
-        this.expenseType = '';
-        this.amount = '';
-        this.expenseDate = '';
-        this.description = '';
-
-        // Stop saving
+        this.resetForm();
         this.saving = false;
-
-        this.cdr.detectChanges();
 
         alert('Expense added successfully');
 
-        // Get latest data from database
         this.getExpenses();
       },
 
@@ -139,11 +149,46 @@ export class Expense {
         console.log('Add Expense Error:', error);
 
         this.saving = false;
-
-        alert('Failed to add expense');
-
         this.cdr.detectChanges();
+
+        alert('Failed to add expense. Please check the backend.');
       }
+
+    });
+  }
+
+  deleteExpense(id: number) {
+
+    if (!this.userId) {
+      alert('Please login again.');
+      return;
+    }
+
+    if (!confirm('Are you sure you want to delete this expense?')) {
+      return;
+    }
+
+    this.http.delete(
+      `${this.apiUrl}/delete/${id}?userId=${this.userId}`,
+      { responseType: 'text' }
+    ).subscribe({
+
+      next: (data) => {
+
+        console.log('Delete Response:', data);
+
+        alert('Expense deleted successfully');
+
+        this.getExpenses();
+      },
+
+      error: (error) => {
+
+        console.log('Delete Expense Error:', error);
+
+        alert('Failed to delete expense. Please check the backend.');
+      }
+
     });
   }
 }

@@ -45,13 +45,33 @@ export class Signup {
     };
 
     this.userService.signup(user).subscribe({
-      next: () => {
-        alert('Account created successfully');
-        this.router.navigate(['/login']);
+
+      next: (data) => {
+
+        console.log('Signup Response:', data);
+
+        if (data) {
+
+          alert('Account created successfully');
+
+          this.router.navigate(['/login']);
+
+        } else {
+
+          alert('Email already exists');
+
+        }
+
       },
-      error: () => {
+
+      error: (error) => {
+
+        console.log('Signup Error:', error);
+
         alert('Signup failed');
+
       }
+
     });
   }
 }

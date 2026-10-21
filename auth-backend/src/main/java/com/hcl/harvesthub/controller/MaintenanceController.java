@@ -1,8 +1,12 @@
+
 package com.hcl.harvesthub.controller;
 
 import com.hcl.harvesthub.model.Maintenance;
 import com.hcl.harvesthub.service.MaintenanceService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,70 +20,100 @@ public class MaintenanceController {
     private MaintenanceService service;
 
     @PostMapping("/add")
-    public Maintenance add(@RequestBody Maintenance maintenance) {
-        return service.save(maintenance);
+    public Maintenance add(
+            @RequestBody Maintenance maintenance,
+            @RequestParam Long userId) {
+        return service.save(maintenance, userId);
     }
 
     @PostMapping("/addAll")
     public List<Maintenance> addAll(
-            @RequestBody List<Maintenance> maintenances) {
-
-        return service.saveAll(maintenances);
+            @RequestBody List<Maintenance> maintenances,
+            @RequestParam Long userId) {
+        return service.saveAll(maintenances, userId);
     }
 
     @GetMapping("/all")
-    public List<Maintenance> all() {
-        return service.getAll();
+    public List<Maintenance> all(@RequestParam Long userId) {
+        return service.getAll(userId);
     }
 
     @GetMapping("/id/{id}")
-    public Maintenance getById(@PathVariable Long id) {
-        return service.getById(id);
+    public ResponseEntity<Maintenance> getById(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
+
+        Maintenance maintenance = service.getById(id, userId);
+
+        if (maintenance == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(maintenance);
     }
 
     @PutMapping("/update/{id}")
-    public Maintenance update(
+    public ResponseEntity<Maintenance> update(
             @PathVariable Long id,
-            @RequestBody Maintenance maintenance) {
+            @RequestBody Maintenance maintenance,
+            @RequestParam Long userId) {
 
-        return service.update(id, maintenance);
+        Maintenance updated = service.update(id, maintenance, userId);
+
+        if (updated == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
+    public ResponseEntity<String> delete(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
 
-        service.delete(id);
+        if (!service.delete(id, userId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Maintenance record not found");
+        }
 
-        return "Maintenance deleted successfully";
+        return ResponseEntity.ok("Maintenance deleted successfully");
     }
 
     @PostMapping("/post/{id}")
-    public Maintenance postById(@PathVariable Long id) {
-        return service.getById(id);
+    public ResponseEntity<Maintenance> postById(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
+
+        Maintenance maintenance = service.getById(id, userId);
+
+        if (maintenance == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(maintenance);
     }
 
     @DeleteMapping("/deleteAll")
-    public String deleteAll() {
-
-        service.deleteAll();
-
-        return "All maintenance records deleted successfully";
+    public String deleteAll(@RequestParam Long userId) {
+        service.deleteAll(userId);
+        return "Your maintenance records deleted successfully";
     }
 
     @GetMapping("/search")
     public List<Maintenance> search(
-            @RequestParam String equipmentName) {
-
-        return service.search(equipmentName);
+            @RequestParam String equipmentName,
+            @RequestParam Long userId) {
+        return service.search(equipmentName, userId);
     }
 
     @GetMapping("/total")
-    public Double total() {
-        return service.getTotalCost();
+    public Double total(@RequestParam Long userId) {
+        return service.getTotalCost(userId);
     }
 
     @GetMapping("/count")
-    public long count() {
-        return service.getAll().size();
+    public long count(@RequestParam Long userId) {
+        return service.count(userId);
     }
 }

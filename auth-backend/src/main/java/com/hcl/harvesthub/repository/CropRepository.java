@@ -9,5 +9,10 @@ import java.util.List;
 @Repository
 public interface CropRepository extends JpaRepository<Crop, Long> {
 
-    List<Crop> findByCropNameContainingIgnoreCase(String cropName);
+    List<Crop> findByUser_Id(Long userId);
+
+    List<Crop> findByUser_IdAndCropNameContainingIgnoreCase(
+            Long userId,
+            String cropName
+    );
 }

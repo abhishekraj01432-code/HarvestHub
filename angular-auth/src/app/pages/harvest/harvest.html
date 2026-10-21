@@ -1,7 +1,7 @@
+
 <div class="page">
 
   <div class="page-header">
-
     <div>
       <h1>Harvest</h1>
       <p>Track your harvested crops and production</p>
@@ -11,14 +11,11 @@
       class="add-btn"
       (click)="openForm()"
       [disabled]="saving">
-
       + Add Harvest
-
     </button>
-
   </div>
 
-
+  <!-- Add Harvest Form -->
   <div class="form-box" *ngIf="showForm">
 
     <h2>Add New Harvest</h2>
@@ -26,77 +23,57 @@
     <div class="form-grid">
 
       <div class="form-group">
-
         <label>Crop Name</label>
-
         <input
           type="text"
           [(ngModel)]="cropName"
           placeholder="Example: Wheat">
-
       </div>
 
-
       <div class="form-group">
-
         <label>Harvest Date</label>
-
         <input
           type="date"
           [(ngModel)]="harvestDate">
-
       </div>
 
-
       <div class="form-group">
-
         <label>Quantity</label>
-
         <input
-          type="text"
+          type="number"
+          min="0.01"
+          step="any"
           [(ngModel)]="quantity"
           placeholder="Example: 150">
-
       </div>
 
-
       <div class="form-group">
-
         <label>Unit</label>
-
         <input
           type="text"
           [(ngModel)]="unit"
           placeholder="Example: Quintal">
-
       </div>
 
-
       <div class="form-group">
-
-        <label>Selling Price</label>
-
+        <label>Selling Price (₹)</label>
         <input
-          type="text"
+          type="number"
+          min="0"
+          step="0.01"
           [(ngModel)]="sellingPrice"
           placeholder="Example: 2450">
-
       </div>
 
-
       <div class="form-group">
-
         <label>Quality</label>
-
         <input
           type="text"
           [(ngModel)]="quality"
           placeholder="Example: Good">
-
       </div>
 
     </div>
-
 
     <div class="form-buttons">
 
@@ -104,81 +81,72 @@
         class="save-btn"
         (click)="addHarvest()"
         [disabled]="saving">
-
         {{ saving ? 'Saving...' : 'Save Harvest' }}
-
       </button>
-
 
       <button
         class="cancel-btn"
         (click)="closeForm()"
         [disabled]="saving">
-
         Cancel
-
       </button>
 
     </div>
 
   </div>
 
-
+  <!-- Harvest Records Table -->
   <div class="harvest-table">
 
     <table>
 
       <thead>
-
         <tr>
-          <th>ID</th>
+          <th>S.No.</th>
           <th>Crop Name</th>
           <th>Harvest Date</th>
           <th>Quantity</th>
           <th>Unit</th>
           <th>Selling Price</th>
           <th>Quality</th>
+          <th>Action</th>
         </tr>
-
       </thead>
-
 
       <tbody>
 
         <tr *ngIf="loading">
-
-          <td colspan="7" class="message">
+          <td colspan="8" class="message">
             Loading harvest records...
           </td>
-
         </tr>
 
+        <tr *ngFor="let harvest of harvests; let i = index">
 
-        <tr *ngFor="let harvest of harvests">
-
-          <td>{{ harvest.id }}</td>
+          <!-- Display serial number, not database ID -->
+          <td>{{ i + 1 }}</td>
 
           <td>{{ harvest.cropName }}</td>
-
           <td>{{ harvest.harvestDate }}</td>
-
           <td>{{ harvest.quantity }}</td>
-
           <td>{{ harvest.unit }}</td>
-
           <td>₹{{ harvest.sellingPrice }}</td>
-
           <td>{{ harvest.quality }}</td>
+
+          <td>
+            <button
+              class="delete-btn"
+              (click)="deleteHarvest(harvest.id)">
+              Delete
+            </button>
+          </td>
 
         </tr>
 
-
         <tr *ngIf="!loading && harvests.length === 0">
-
-          <td colspan="7" class="message">
+          <td colspan="8" class="message">
             No harvest records found
           </td>
-
         </tr>
 
       </tbody>

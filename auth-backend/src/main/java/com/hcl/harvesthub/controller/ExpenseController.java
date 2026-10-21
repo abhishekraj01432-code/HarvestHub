@@ -1,7 +1,9 @@
+
 package com.hcl.harvesthub.controller;
 
 import com.hcl.harvesthub.model.Expense;
 import com.hcl.harvesthub.service.ExpenseService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,62 +18,72 @@ public class ExpenseController {
     private ExpenseService service;
 
     @PostMapping("/add")
-    public Expense add(@RequestBody Expense expense) {
-        return service.save(expense);
+    public Expense add(
+            @RequestBody Expense expense,
+            @RequestParam Long userId) {
+        return service.save(expense, userId);
     }
 
     @PostMapping("/addAll")
-    public List<Expense> addAll(@RequestBody List<Expense> expenses) {
-        return service.saveAll(expenses);
+    public List<Expense> addAll(
+            @RequestBody List<Expense> expenses,
+            @RequestParam Long userId) {
+        return service.saveAll(expenses, userId);
     }
 
     @GetMapping("/all")
-    public List<Expense> all() {
-        return service.getAll();
+    public List<Expense> all(@RequestParam Long userId) {
+        return service.getAll(userId);
     }
 
     @GetMapping("/id/{id}")
-    public Expense getById(@PathVariable Long id) {
-        return service.getById(id);
+    public Expense getById(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
+        return service.getById(id, userId);
     }
 
     @PutMapping("/update/{id}")
     public Expense update(
             @PathVariable Long id,
-            @RequestBody Expense expense) {
-
-        return service.update(id, expense);
+            @RequestBody Expense expense,
+            @RequestParam Long userId) {
+        return service.update(id, expense, userId);
     }
 
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        service.delete(id);
-        return "Expense deleted successfully";
-    }
-
-    @PostMapping("/post/{id}")
-    public Expense postById(@PathVariable Long id) {
-        return service.getById(id);
+    public String delete(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
+        return service.delete(id, userId);
     }
 
     @DeleteMapping("/deleteAll")
-    public String deleteAll() {
-        service.deleteAll();
-        return "All expense records deleted successfully";
+    public String deleteAll(@RequestParam Long userId) {
+        return service.deleteAll(userId);
+    }
+
+    @PostMapping("/post/{id}")
+    public Expense postById(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
+        return service.getById(id, userId);
     }
 
     @GetMapping("/search")
-    public List<Expense> search(@RequestParam String expenseType) {
-        return service.search(expenseType);
+    public List<Expense> search(
+            @RequestParam String expenseType,
+            @RequestParam Long userId) {
+        return service.search(expenseType, userId);
     }
 
     @GetMapping("/total")
-    public Double total() {
-        return service.getTotalAmount();
+    public Double total(@RequestParam Long userId) {
+        return service.getTotalAmount(userId);
     }
 
     @GetMapping("/count")
-    public long count() {
-        return service.getAll().size();
+    public long count(@RequestParam Long userId) {
+        return service.getAll(userId).size();
     }
 }

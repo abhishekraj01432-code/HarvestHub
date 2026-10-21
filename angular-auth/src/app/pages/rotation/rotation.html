@@ -1,3 +1,4 @@
+
 <div class="page">
 
   <div class="page-header">
@@ -8,6 +9,7 @@
     </div>
 
     <button
+      type="button"
       class="add-btn"
       (click)="openForm()"
       [disabled]="saving">
@@ -18,7 +20,6 @@
 
   </div>
 
-
   <div class="form-box" *ngIf="showForm">
 
     <h2>Add New Rotation Record</h2>
@@ -26,69 +27,50 @@
     <div class="form-grid">
 
       <div class="form-group">
-
         <label>Field Name</label>
-
         <input
           type="text"
           [(ngModel)]="fieldName"
           placeholder="Example: Field A">
-
       </div>
 
-
       <div class="form-group">
-
         <label>Previous Crop</label>
-
         <input
           type="text"
           [(ngModel)]="previousCrop"
           placeholder="Example: Rice">
-
       </div>
 
-
       <div class="form-group">
-
         <label>Next Crop</label>
-
         <input
           type="text"
           [(ngModel)]="nextCrop"
           placeholder="Example: Wheat">
-
       </div>
 
-
       <div class="form-group">
-
         <label>Rotation Date</label>
-
         <input
           type="date"
           [(ngModel)]="rotationDate">
-
       </div>
 
-
       <div class="form-group">
-
         <label>Season</label>
-
         <input
           type="text"
           [(ngModel)]="season"
           placeholder="Example: Rabi">
-
       </div>
 
     </div>
 
-
     <div class="form-buttons">
 
       <button
+        type="button"
         class="save-btn"
         (click)="addRotation()"
         [disabled]="saving">
@@ -97,8 +79,8 @@
 
       </button>
 
-
       <button
+        type="button"
         class="cancel-btn"
         (click)="closeForm()"
         [disabled]="saving">
@@ -111,39 +93,34 @@
 
   </div>
 
-
   <div class="rotation-table">
 
     <table>
 
       <thead>
-
         <tr>
-          <th>ID</th>
+          <th>S.No.</th>
           <th>Field Name</th>
           <th>Previous Crop</th>
           <th>Next Crop</th>
           <th>Rotation Date</th>
           <th>Season</th>
+          <th>Action</th>
         </tr>
-
       </thead>
-
 
       <tbody>
 
         <tr *ngIf="loading">
-
-          <td colspan="6" class="message">
+          <td colspan="7" class="message">
             Loading rotation records...
           </td>
-
         </tr>
 
+        <tr
+          *ngFor="let rotation of rotations; let i = index">
 
-        <tr *ngFor="let rotation of rotations">
-
-          <td>{{ rotation.id }}</td>
+          <td>{{ i + 1 }}</td>
 
           <td>{{ rotation.fieldName }}</td>
 
@@ -155,15 +132,23 @@
 
           <td>{{ rotation.season }}</td>
 
-        </tr>
+          <td>
+            <button
+              type="button"
+              class="delete-btn"
+              (click)="deleteRotation(rotation.id)">
 
+              Delete
 
-        <tr *ngIf="!loading && rotations.length === 0">
-
-          <td colspan="6" class="message">
-            No rotation records found
+            </button>
           </td>
 
+        </tr>
+
+        <tr *ngIf="!loading && rotations.length === 0">
+          <td colspan="7" class="message">
+            No rotation records found
+          </td>
         </tr>
 
       </tbody>

@@ -12,9 +12,21 @@ SELECT * FROM equipment;
 SELECT * FROM expenses;
 SELECT * FROM rotation_records;
 SHOW TABLES;
-SELECT * FROM users
 WHERE email = 'abhi@gmail.com';
 DELETE FROM users
 WHERE id = 2;
-DELETE FROM harvests;
+DELETE FROM crops;
 ALTER TABLE harvests AUTO_INCREMENT = 1;
+SHOW COLUMNS FROM harvesthub.USERS;
+ALTER TABLE harvesthub.USERS
+ADD CONSTRAINT uk_users_email UNIQUE (email);
+SHOW COLUMNS FROM harvesthub.USERS;
+SELECT * FROM harvesthub.USERS;
+SELECT * FROM harvesthub.CROPS;
+UPDATE harvesthub.USERS
+SET id = 2
+WHERE id = 3;
+DESCRIBE crops;
+SELECT id, crop_name, crop_type, season, duration, user_id
+FROM harvesthub.CROPS;
+ALTER TABLE harvesthub.CROPS AUTO_INCREMENT = 1;

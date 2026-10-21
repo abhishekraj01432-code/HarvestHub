@@ -1,23 +1,19 @@
+
 <div class="page">
 
   <!-- Header -->
-
   <div class="page-header">
-
     <div>
       <h1>Farm Profile</h1>
       <p>Manage your farm information</p>
     </div>
 
-    <button class="add-btn" (click)="openForm()">
+    <button type="button" class="add-btn" (click)="openForm()">
       + Add Farm
     </button>
-
   </div>
 
-
   <!-- Add Farm Form -->
-
   <div class="form-box" *ngIf="showForm">
 
     <h2>Add New Farm</h2>
@@ -25,99 +21,71 @@
     <div class="form-grid">
 
       <div class="form-group">
-
         <label>Farm Name</label>
-
         <input
           type="text"
           [(ngModel)]="farmName"
           placeholder="Enter farm name">
-
       </div>
 
-
       <div class="form-group">
-
         <label>Owner Name</label>
-
         <input
           type="text"
           [(ngModel)]="ownerName"
           placeholder="Enter owner name">
-
       </div>
 
-
       <div class="form-group">
-
         <label>Location</label>
-
         <input
           type="text"
           [(ngModel)]="location"
           placeholder="Enter farm location">
-
       </div>
 
-
       <div class="form-group">
-
         <label>Total Area</label>
-
         <input
           type="number"
           [(ngModel)]="totalArea"
           placeholder="Example: 25.5">
-
       </div>
 
-
       <div class="form-group">
-
         <label>Area Unit</label>
-
         <input
           type="text"
           [(ngModel)]="areaUnit"
           placeholder="Example: Acre">
-
       </div>
 
     </div>
 
-
     <div class="form-buttons">
-
       <button
+        type="button"
         class="save-btn"
         (click)="addFarm()">
-
         Save Farm
-
       </button>
-
 
       <button
+        type="button"
         class="cancel-btn"
         (click)="closeForm()">
-
         Cancel
-
       </button>
-
     </div>
 
   </div>
 
-
   <!-- Farm Table -->
-
   <div class="farm-table">
 
     <table>
 
       <thead>
-
         <tr>
           <th>ID</th>
           <th>Farm Name</th>
@@ -125,45 +93,40 @@
           <th>Location</th>
           <th>Total Area</th>
           <th>Area Unit</th>
+          <th>Action</th>
         </tr>
-
       </thead>
-
 
       <tbody>
 
         <tr *ngIf="loading">
-
-          <td colspan="6" class="message">
+          <td colspan="7" class="message">
             Loading farm profiles...
           </td>
-
         </tr>
 
-
-        <tr *ngFor="let farm of farmProfiles">
-
-          <td>{{ farm.id }}</td>
-
+        <tr *ngFor="let farm of farmProfiles; let i = index">
+          <td>{{ i + 1 }}</td>
           <td>{{ farm.farmName }}</td>
-
           <td>{{ farm.ownerName }}</td>
-
           <td>{{ farm.location }}</td>
-
           <td>{{ farm.totalArea }}</td>
-
           <td>{{ farm.areaUnit }}</td>
 
+          <td>
+            <button
+              type="button"
+              class="delete-btn"
+              (click)="deleteFarm(farm.id)">
+              Delete
+            </button>
+          </td>
         </tr>
 
-
         <tr *ngIf="!loading && farmProfiles.length === 0">
-
-          <td colspan="6" class="message">
+          <td colspan="7" class="message">
             No farm profile records found
           </td>
-
         </tr>
 
       </tbody>

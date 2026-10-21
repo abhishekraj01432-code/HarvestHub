@@ -1,6 +1,9 @@
+
 <div class="page">
 
+  <!-- Header -->
   <div class="page-header">
+
     <div>
       <h1>Activities</h1>
       <p>Manage your farm field activities</p>
@@ -10,10 +13,14 @@
       class="add-btn"
       (click)="openForm()"
       [disabled]="saving">
+
       + Add Activity
+
     </button>
+
   </div>
 
+  <!-- Add Activity Form -->
   <div class="form-box" *ngIf="showForm">
 
     <h2>Add New Activity</h2>
@@ -22,6 +29,7 @@
 
       <div class="form-group">
         <label>Activity Name</label>
+
         <input
           type="text"
           [(ngModel)]="activityName"
@@ -30,6 +38,7 @@
 
       <div class="form-group">
         <label>Field Name</label>
+
         <input
           type="text"
           [(ngModel)]="fieldName"
@@ -38,6 +47,7 @@
 
       <div class="form-group">
         <label>Activity Date</label>
+
         <input
           type="date"
           [(ngModel)]="activityDate">
@@ -45,14 +55,17 @@
 
       <div class="form-group">
         <label>Status</label>
-        <input
-          type="text"
-          [(ngModel)]="status"
-          placeholder="Example: Completed">
+
+        <select [(ngModel)]="status">
+          <option value="Planned">Planned</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
       </div>
 
       <div class="form-group full-width">
         <label>Description</label>
+
         <input
           type="text"
           [(ngModel)]="description"
@@ -61,60 +74,98 @@
 
     </div>
 
+    <!-- Form Buttons -->
     <div class="form-buttons">
 
       <button
         class="save-btn"
         (click)="addActivity()"
         [disabled]="saving">
+
         {{ saving ? 'Saving...' : 'Save Activity' }}
+
       </button>
 
       <button
         class="cancel-btn"
         (click)="closeForm()"
         [disabled]="saving">
+
         Cancel
+
       </button>
 
     </div>
 
   </div>
 
+  <!-- Activity Table -->
   <div class="activity-table">
 
     <table>
 
       <thead>
         <tr>
-          <th>ID</th>
+          <th>S.No.</th>
           <th>Activity Name</th>
           <th>Field Name</th>
           <th>Activity Date</th>
           <th>Description</th>
           <th>Status</th>
+          <th>Action</th>
         </tr>
       </thead>
 
       <tbody>
 
+        <!-- Loading -->
         <tr *ngIf="loading">
-          <td colspan="6" class="message">
+          <td colspan="7" class="message">
             Loading activities...
           </td>
         </tr>
 
-        <tr *ngFor="let activity of activities">
-          <td>{{ activity.id }}</td>
+        <!-- Activity Data -->
+        <tr
+          *ngFor="let activity of activities; let i = index">
+
+          <td>{{ i + 1 }}</td>
+
           <td>{{ activity.activityName }}</td>
+
           <td>{{ activity.fieldName }}</td>
+
           <td>{{ activity.activityDate }}</td>
+
           <td>{{ activity.description }}</td>
-          <td>{{ activity.status }}</td>
+
+          <td>
+            <span
+              class="status"
+              [ngClass]="{
+                'completed': activity.status === 'Completed',
+                'progress': activity.status === 'In Progress',
+                'planned': activity.status === 'Planned'
+              }">
+              {{ activity.status }}
+            </span>
+          </td>
+
+          <td>
+            <button
+              class="delete-btn"
+              (click)="deleteActivity(activity.id)">
+
+              Delete
+
+            </button>
+          </td>
+
         </tr>
 
+        <!-- Empty -->
         <tr *ngIf="!loading && activities.length === 0">
-          <td colspan="6" class="message">
+          <td colspan="7" class="message">
             No activity records found
           </td>
         </tr>

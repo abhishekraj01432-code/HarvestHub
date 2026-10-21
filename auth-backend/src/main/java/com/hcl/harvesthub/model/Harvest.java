@@ -1,15 +1,12 @@
+
 package com.hcl.harvesthub.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "HARVESTS")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Harvest {
 
     @Id
@@ -23,12 +20,33 @@ public class Harvest {
     private Double sellingPrice;
     private String quality;
 
-    public void setId(Long id) {
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
+
+    public Harvest() {
+    }
+
+    public Harvest(Long id, String cropName, LocalDate harvestDate,
+                   Double quantity, String unit, Double sellingPrice,
+                   String quality, User user) {
         this.id = id;
+        this.cropName = cropName;
+        this.harvestDate = harvestDate;
+        this.quantity = quantity;
+        this.unit = unit;
+        this.sellingPrice = sellingPrice;
+        this.quality = quality;
+        this.user = user;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCropName() {
@@ -77,5 +95,13 @@ public class Harvest {
 
     public void setQuality(String quality) {
         this.quality = quality;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

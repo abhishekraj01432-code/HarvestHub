@@ -1,3 +1,4 @@
+
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -5,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-rotation',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './rotation.html',
   styleUrl: './rotation.css'
@@ -22,6 +24,9 @@ export class Rotation {
   rotationDate = '';
   season = '';
 
+  private apiUrl = 'http://localhost:8083/rotation';
+  private userId = Number(localStorage.getItem('userId'));
+
   constructor(
     private http: HttpClient,
     private cdr: ChangeDetectorRef
@@ -31,29 +36,28 @@ export class Rotation {
 
   getRotations() {
 
-    this.http.get<any[]>('http://localhost:8083/rotation/all')
-      .subscribe({
+    if (!this.userId) {
+      this.loading = false;
+      alert('User not logged in. Please login again.');
+      return;
+    }
 
-        next: (data) => {
+    this.loading = true;
 
-          console.log('Rotation Data:', data);
-
-          this.rotations = data;
-          this.loading = false;
-
-          this.cdr.detectChanges();
-        },
-
-        error: (error) => {
-
-          console.log('Rotation Error:', error);
-
-          this.loading = false;
-
-          this.cdr.detectChanges();
-        }
-
-      });
+    this.http.get<any[]>(
+      `${this.apiUrl}/all?userId=${this.userId}`
+    ).subscribe({
+      next: (data) => {
+        this.rotations = data;
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.log('Rotation Error:', error);
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   openForm() {
@@ -67,12 +71,10 @@ export class Rotation {
     }
 
     this.showForm = false;
-
     this.clearForm();
   }
 
   clearForm() {
-
     this.fieldName = '';
     this.previousCrop = '';
     this.nextCrop = '';
@@ -86,14 +88,18 @@ export class Rotation {
       return;
     }
 
-    if (
-      this.fieldName.trim() === '' ||
-      this.previousCrop.trim() === '' ||
-      this.nextCrop.trim() === '' ||
-      this.rotationDate === '' ||
-      this.season.trim() === ''
-    ) {
+    if (!this.userId) {
+      alert('Please login again.');
+      return;
+    }
 
+    if (
+      !this.fieldName.trim() ||
+      !this.previousCrop.trim() ||
+      !this.nextCrop.trim() ||
+      !this.rotationDate ||
+      !this.season.trim()
+    ) {
       alert('Please fill all fields');
       return;
     }
@@ -101,58 +107,69 @@ export class Rotation {
     this.saving = true;
 
     const rotation = {
-
-      fieldName: this.fieldName,
-      previousCrop: this.previousCrop,
-      nextCrop: this.nextCrop,
+      fieldName: this.fieldName.trim(),
+      previousCrop: this.previousCrop.trim(),
+      nextCrop: this.nextCrop.trim(),
       rotationDate: this.rotationDate,
-      season: this.season
-
+      season: this.season.trim()
     };
 
     this.http.post<any>(
-      'http://localhost:8083/rotation/add',
+      `${this.apiUrl}/add?userId=${this.userId}`,
       rotation
-    )
-    .subscribe({
-
+    ).subscribe({
       next: (data) => {
 
-        console.log('Rotation Added:', data);
+        this.rotations = [...this.rotations, data];
 
-        // Add new record directly to table
-        this.rotations.push(data);
-
-        // Create new array for Angular update
-        this.rotations = [...this.rotations];
-
-        // Close form
         this.showForm = false;
-
-        // Clear form
         this.clearForm();
-
-        // Stop saving
         this.saving = false;
 
-        // Update UI immediately
-        this.cdr.markForCheck();
         this.cdr.detectChanges();
 
         alert('Rotation record added successfully');
       },
-
       error: (error) => {
-
         console.log('Add Rotation Error:', error);
-
         this.saving = false;
+        this.cdr.detectChanges();
+
+        alert('Failed to add rotation record. Check the backend console.');
+      }
+    });
+  }
+
+  deleteRotation(id: number) {
+
+    if (!this.userId) {
+      alert('Please login again.');
+      return;
+    }
+
+    if (!confirm('Are you sure you want to delete this rotation record?')) {
+      return;
+    }
+
+    this.http.delete(
+      `${this.apiUrl}/delete/${id}?userId=${this.userId}`,
+      { responseType: 'text' }
+    ).subscribe({
+      next: () => {
+
+        // Remove the deleted row immediately.
+        this.rotations = this.rotations.filter(
+          rotation => rotation.id !== id
+        );
 
         this.cdr.detectChanges();
 
-        alert('Failed to add rotation record');
+        alert('Rotation record deleted successfully');
+      },
+      error: (error) => {
+        console.log('Delete Rotation Error:', error);
+        alert('Failed to delete rotation record. Please try again.');
       }
-
     });
   }
 }

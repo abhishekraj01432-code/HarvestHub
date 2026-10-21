@@ -1,3 +1,4 @@
+
 package com.hcl.harvesthub.repository;
 
 import com.hcl.harvesthub.model.Field;
@@ -9,5 +10,12 @@ import java.util.List;
 @Repository
 public interface FieldRepository extends JpaRepository<Field, Long> {
 
-    List<Field> findByFieldNameContainingIgnoreCase(String fieldName);
+    // Get fields belonging to a particular user
+    List<Field> findByUser_Id(Long userId);
+
+    // Search fields belonging to a particular user
+    List<Field> findByUser_IdAndFieldNameContainingIgnoreCase(
+            Long userId,
+            String fieldName
+    );
 }

@@ -1,3 +1,4 @@
+
 package com.hcl.harvesthub.repository;
 
 import com.hcl.harvesthub.model.Harvest;
@@ -7,7 +8,11 @@ import java.util.List;
 
 public interface HarvestRepository extends JpaRepository<Harvest, Long> {
 
-    List<Harvest> findByQualityContainingIgnoreCase(String quality);
+    List<Harvest> findByUser_Id(Long userId);
 
-    List<Harvest> findByCropNameContainingIgnoreCase(String cropName);
+    List<Harvest> findByUser_IdAndQualityContainingIgnoreCase(
+            Long userId, String quality);
+
+    List<Harvest> findByUser_IdAndCropNameContainingIgnoreCase(
+            Long userId, String cropName);
 }
