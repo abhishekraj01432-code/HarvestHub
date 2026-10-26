@@ -1,197 +1,192 @@
-# HarvestHub
+# 🌾 HarvestHub – Farm Management & Crop Planning
 
-HarvestHub is a full-stack farm management application designed to help agricultural teams manage crops, farm operations, expenses, harvest records, equipment maintenance, and rotation planning from a single platform.
+HarvestHub is a full-stack farm management application designed to simplify agricultural operations through a centralized platform. It helps users manage crops, fields, farm profiles, crop plans, activities, expenses, harvest records, equipment, maintenance schedules, and crop rotation.
 
-The project combines:
-- An Angular frontend for the user interface and dashboards
-- A Spring Boot backend for REST APIs and business logic
-- A MySQL database for persistent farm data
+The project is built using **Angular, Spring Boot, and MySQL**, with REST APIs connecting the frontend and backend.
 
-## Overview
+## ✨ Features
 
-HarvestHub provides a centralized workflow for managing day-to-day farm operations, including:
+- **User Authentication:** Login and signup functionality.
+- **Dashboard:** Overview of farm statistics and records.
+- **Crop Management:** Maintain crop information.
+- **Field Management:** Organize fields and their details.
+- **Farm Profile:** Manage farm information.
+- **Crop Planning:** Track sowing dates, expected harvest dates, and crop status.
+- **Activity Management:** Record and monitor farming activities.
+- **Expense Tracking:** Store farming expenses and descriptions.
+- **Harvest Management:** Maintain harvest quantities, selling prices, and quality.
+- **Equipment Management:** Keep records of agricultural equipment.
+- **Maintenance Scheduling:** Track maintenance dates, costs, and service status.
+- **Crop Rotation:** Maintain crop rotation records for different fields.
+- **REST API Integration:** Connect frontend components with backend services.
+- **MySQL Persistence:** Store application data in a relational database.
 
-- Crop and field management
-- Farm profile details
-- Crop planning and rotation records
-- Daily activity tracking
-- Equipment monitoring
-- Maintenance schedules
-- Expense tracking
-- Harvest records
-- User authentication and access control
+## 🛠️ Tech Stack
 
-## Tech Stack
+| Technology | Purpose |
+|---|---|
+| Angular 21 | Frontend |
+| TypeScript | Frontend logic |
+| HTML5 and CSS3 | User interface |
+| Java | Backend |
+| Spring Boot 4.1.1 | REST APIs and business logic |
+| Spring Data JPA / Hibernate | Database operations |
+| MySQL | Database |
+| Maven | Backend build tool |
+| npm | Frontend package management |
+| Postman | API testing |
+| Git and GitHub | Version control |
+| GitHub Actions | Automated build workflow |
 
-- Frontend: Angular 21
-- Backend: Spring Boot 4.1.1
-- Database: MySQL
-- Build Tools: Maven, npm
-- CI/CD: GitHub Actions
-
-## Project Structure
+## 📁 Project Structure
 
 ```text
-harvesthub/
+HarvestHub/
 ├── .github/
 │   └── workflows/
 │       └── harvesthub.yml
-├── angular-auth/          # Angular frontend
-├── auth-backend/          # Spring Boot backend
-├── Document/              # SQL and project documentation
+├── Document/
+│   ├── Harvesthub.sql
+│   └── SRS Report.docx
+├── angular-auth/
+│   └── Angular frontend source
+├── auth-backend/
+│   └── Spring Boot backend source
 ├── .gitignore
-├── README.md              # Project overview and setup guide
-└── .idea/                 # IDE settings
+└── README.md
 ```
 
-## Features
+## ⚙️ Prerequisites
 
-### Frontend
-The Angular app includes pages for:
-- Login and signup
-- Dashboard
-- Crops
-- Crop plans
-- Fields
-- Farm profile
-- Activities
-- Expenses
-- Harvest
-- Equipment
-- Maintenance
-- Rotation
+Install the following before running the project:
 
-### Backend
-The Spring Boot application provides the API layer for handling:
-- User authentication and registration
-- Farm and field data management
-- Crop and activity records
-- Maintenance and equipment operations
-- Harvest and expense tracking
-
-## Prerequisites
-
-Before running the project locally, make sure you have:
-
-- Node.js 20+
-- npm
-- Java 17+ (the project is configured for Spring Boot and the repository CI validates using Java 17)
-- MySQL Server running locally
+- Java JDK compatible with the backend configuration
+- Node.js and npm
+- MySQL Server
 - Git
 
-## Database Setup
+## 🚀 Getting Started
 
-Create a MySQL database named `harvesthub`.
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/abhishekraj01432-code/HarvestHub.git
+cd HarvestHub
+```
+
+### 2. Configure MySQL
+
+Create the database in MySQL:
 
 ```sql
 CREATE DATABASE IF NOT EXISTS harvesthub;
-USE harvesthub;
 ```
 
-The backend is configured in `auth-backend/src/main/resources/application.properties` with the following default settings:
+Configure the database connection in:
+
+`auth-backend/src/main/resources/application.properties`
+
+Use your own local MySQL credentials. Do not commit database passwords, API keys, or other secrets to GitHub.
+
+Example configuration:
 
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/harvesthub?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Kolkata
-spring.datasource.username=root
-spring.datasource.password=abhi1234
+spring.datasource.url=jdbc:mysql://localhost:3306/harvesthub
+spring.datasource.username=${DB_USERNAME}
+spring.datasource.password=${DB_PASSWORD}
 server.port=8083
 ```
 
-If your MySQL credentials differ, update those values in the config file before starting the backend.
+Set `DB_USERNAME` and `DB_PASSWORD` in your local environment before starting the backend. Keep your actual credentials private.
 
-## Running the Backend
+If needed, use the SQL script in `Document/Harvesthub.sql` to initialize or inspect the database structure.
 
-Open a terminal and run:
+### 3. Run the Backend
 
-```bash
-cd auth-backend
-./mvnw spring-boot:run
-```
-
-On Windows PowerShell:
+Open a terminal in the repository root:
 
 ```powershell
 cd auth-backend
-./mvnw.cmd spring-boot:run
+.\mvnw.cmd spring-boot:run
 ```
 
-The backend will run on:
+The backend is configured to run at:
 
-```text
-http://localhost:8083
-```
+`http://localhost:8083`
 
-## Running the Frontend
+### 4. Run the Frontend
 
-Open a second terminal and run:
+Open a second terminal in the repository root:
 
-```bash
+```powershell
 cd angular-auth
 npm install
 npm start
 ```
 
-This starts the Angular development server on:
+Open the application at:
 
-```text
-http://localhost:4200
-```
+`http://localhost:4200`
 
-## Build Commands
+Ensure that MySQL and the backend are running before testing frontend features that use the APIs.
 
-### Frontend build
+## 🧪 Testing
+
+Postman can be used to test backend REST APIs, including operations for creating, retrieving, updating, and deleting records.
+
+The application can be tested locally by verifying:
+
+- Login and signup flows
+- CRUD operations across farm management modules
+- Dashboard statistics
+- Database persistence
+- User-specific data access
+
+## 🏗️ Build and Test Commands
+
+### Frontend
 
 ```bash
 cd angular-auth
 npm run build
-```
-
-### Backend build
-
-```bash
-cd auth-backend
-./mvnw clean package
-```
-
-## Testing
-
-### Frontend tests
-
-```bash
-cd angular-auth
 npm test
 ```
 
-### Backend tests
+### Backend
 
-```bash
+```powershell
 cd auth-backend
-./mvnw test
+.\mvnw.cmd clean package
+.\mvnw.cmd test
 ```
 
-## CI/CD
+Run the test commands supported by the respective project configuration.
 
-GitHub Actions is configured in `.github/workflows/harvesthub.yml` to validate the repository structure and build both the backend and frontend on pushes and pull requests to the main branch.
+## 🔄 GitHub Actions
 
-## Notes
+The repository includes a GitHub Actions workflow at `.github/workflows/harvesthub.yml` for automated project validation and build checks on configured pushes and pull requests.
 
-- The SQL schema and sample queries are stored in `Document/Harvesthub.sql`.
-- The frontend uses Angular routing for page navigation and authentication guard protection on protected routes.
-- The backend is configured for JPA and MySQL-based persistence.
+Check the **Actions** tab in the repository to review workflow results.
 
-## License
+## 📚 Documentation
 
-This project is currently configured for internal or educational use unless a separate license is added.
+Additional project documentation is available in the `Document/` directory:
 
-## Contributing
+- `Harvesthub.sql` – SQL database script
+- `SRS Report.docx` – Software Requirements Specification
 
-If you are continuing development on this project:
+## 🎯 Project Objective
 
-1. Create a branch for your feature or bug fix.
-2. Make your changes.
-3. Validate frontend and backend builds.
-4. Submit a pull request with a clear summary of the work.
+HarvestHub aims to organize essential farm management activities in one application. By centralizing crop planning, field operations, expenses, harvest records, and equipment maintenance, it provides a structured way to maintain agricultural information.
+
+## 👨‍💻 Author
+
+**Abhishek Verma**
+
+B.Tech – Computer Science and Engineering
+
+GitHub: [abhishekraj01432-code](https://github.com/abhishekraj01432-code)
 
 ---
 
-HarvestHub is structured as a practical agricultural management solution and is ready to be extended with additional modules, APIs, and reporting features.
+*Developed as a full-stack farm management and crop planning project.*
