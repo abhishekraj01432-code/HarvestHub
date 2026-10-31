@@ -29,4 +29,5 @@ WHERE id = 3;
 DESCRIBE crops;
 SELECT id, crop_name, crop_type, season, duration, user_id
 FROM harvesthub.CROPS;
+SELECT USER(), CURRENT_USER(), VERSION();
 ALTER TABLE harvesthub.CROPS AUTO_INCREMENT = 1;
