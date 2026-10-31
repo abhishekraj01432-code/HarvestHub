@@ -25,7 +25,7 @@ export class Harvest {
   sellingPrice: string | number = '';
   quality = '';
 
-  private apiUrl = 'http://localhost:8083/harvest';
+  private apiUrl = 'https://harvesthub-backend-7973.onrender.com/harvest';
   private userId = Number(localStorage.getItem('userId'));
 
   constructor(
@@ -134,7 +134,6 @@ export class Harvest {
       harvest
     ).subscribe({
       next: (data) => {
-        // Update table immediately without page refresh
         this.harvests = [...this.harvests, data];
 
         this.showForm = false;
@@ -170,12 +169,10 @@ export class Harvest {
       { responseType: 'text' }
     ).subscribe({
       next: () => {
-        // Remove only the deleted database record
         this.harvests = this.harvests.filter(
           harvest => harvest.id !== id
         );
 
-        // Update the table and serial numbers immediately
         this.cdr.detectChanges();
 
         alert('Harvest deleted successfully');

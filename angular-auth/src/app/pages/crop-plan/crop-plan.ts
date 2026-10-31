@@ -45,7 +45,7 @@ export class CropPlan {
     this.loading = true;
 
     this.http.get<any[]>(
-      `http://localhost:8083/crop-plan/all?userId=${this.userId}`
+      `https://harvesthub-backend-7973.onrender.com/crop-plan/all?userId=${this.userId}`
     ).subscribe({
 
       next: (data) => {
@@ -131,7 +131,7 @@ export class CropPlan {
     };
 
     this.http.post(
-      `http://localhost:8083/crop-plan/add?userId=${this.userId}`,
+      `https://harvesthub-backend-7973.onrender.com/crop-plan/add?userId=${this.userId}`,
       cropPlan
     ).subscribe({
 
@@ -173,7 +173,7 @@ export class CropPlan {
     }
 
     this.http.delete(
-      `http://localhost:8083/crop-plan/delete/${id}?userId=${this.userId}`,
+      `https://harvesthub-backend-7973.onrender.com/crop-plan/delete/${id}?userId=${this.userId}`,
       { responseType: 'text' }
     ).subscribe({
 

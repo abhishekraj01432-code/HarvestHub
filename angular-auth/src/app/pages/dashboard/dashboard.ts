@@ -25,7 +25,7 @@ export class Dashboard implements OnInit, OnDestroy {
 
   private progressInterval?: ReturnType<typeof setInterval>;
 
-  private readonly apiUrl = 'http://localhost:8083';
+private readonly apiUrl = 'https://harvesthub-backend-7973.onrender.com';
 
   constructor(
     private http: HttpClient,

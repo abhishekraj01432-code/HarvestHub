@@ -43,7 +43,7 @@ export class FarmProfile {
     this.loading = true;
 
     this.http.get<any[]>(
-      `http://localhost:8083/farm-profile/all?userId=${this.userId}`
+      `https://harvesthub-backend-7973.onrender.com/farm-profile/all?userId=${this.userId}`
     ).subscribe({
 
       next: (data) => {
@@ -110,7 +110,7 @@ export class FarmProfile {
     };
 
     this.http.post(
-      `http://localhost:8083/farm-profile/add?userId=${this.userId}`,
+      `https://harvesthub-backend-7973.onrender.com/farm-profile/add?userId=${this.userId}`,
       farm
     ).subscribe({
 
@@ -144,7 +144,7 @@ export class FarmProfile {
     }
 
     this.http.delete(
-      `http://localhost:8083/farm-profile/delete/${id}?userId=${this.userId}`,
+      `https://harvesthub-backend-7973.onrender.com/farm-profile/delete/${id}?userId=${this.userId}`,
       { responseType: 'text' }
     ).subscribe({
 

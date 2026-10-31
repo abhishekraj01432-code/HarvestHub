@@ -25,7 +25,7 @@ export class Maintenance {
   cost: string | number = '';
   status = '';
 
-  private apiUrl = 'http://localhost:8083/maintenance';
+  private apiUrl = 'https://harvesthub-backend-7973.onrender.com/maintenance';
   private userId = Number(localStorage.getItem('userId'));
 
   constructor(
@@ -172,7 +172,6 @@ export class Maintenance {
     ).subscribe({
       next: () => {
 
-        // Update the table immediately without reloading the page.
         this.maintenances = this.maintenances.filter(
           maintenance => maintenance.id !== id
         );

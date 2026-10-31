@@ -44,7 +44,7 @@ export class Field {
     this.loading = true;
 
     this.http.get<any[]>(
-      `http://localhost:8083/field/all?userId=${this.userId}`
+      `https://harvesthub-backend-7973.onrender.com/field/all?userId=${this.userId}`
     ).subscribe({
 
       next: (data) => {
@@ -114,7 +114,7 @@ export class Field {
     };
 
     this.http.post(
-      `http://localhost:8083/field/add?userId=${this.userId}`,
+      `https://harvesthub-backend-7973.onrender.com/field/add?userId=${this.userId}`,
       field
     ).subscribe({
 
@@ -148,7 +148,7 @@ export class Field {
     }
 
     this.http.delete(
-      `http://localhost:8083/field/delete/${id}?userId=${this.userId}`,
+      `https://harvesthub-backend-7973.onrender.com/field/delete/${id}?userId=${this.userId}`,
       { responseType: 'text' }
     ).subscribe({
 

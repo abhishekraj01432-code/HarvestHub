@@ -1,3 +1,4 @@
+
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -39,7 +40,7 @@ export class Crops {
     }
 
     this.http.get<any[]>(
-      `http://localhost:8083/crop/all?userId=${this.userId}`
+      `https://harvesthub-backend-7973.onrender.com/crop/all?userId=${this.userId}`
     )
     .subscribe({
 
@@ -67,12 +68,10 @@ export class Crops {
     });
   }
 
-
   // Open Form
   openForm() {
     this.showForm = true;
   }
-
 
   // Close Form
   closeForm() {
@@ -81,7 +80,6 @@ export class Crops {
 
     this.clearForm();
   }
-
 
   // Clear Form
   clearForm() {
@@ -92,7 +90,6 @@ export class Crops {
     this.duration = '';
 
   }
-
 
   // Add Crop
   addCrop() {
@@ -116,7 +113,6 @@ export class Crops {
       return;
     }
 
-
     const crop = {
 
       cropName: this.cropName,
@@ -126,9 +122,8 @@ export class Crops {
 
     };
 
-
     this.http.post(
-      `http://localhost:8083/crop/add?userId=${this.userId}`,
+      `https://harvesthub-backend-7973.onrender.com/crop/add?userId=${this.userId}`,
       crop
     )
     .subscribe({
@@ -159,7 +154,6 @@ export class Crops {
 
   }
 
-
   // Delete Crop
   deleteCrop(id: number) {
 
@@ -177,9 +171,8 @@ export class Crops {
 
     }
 
-
     this.http.delete(
-      `http://localhost:8083/crop/delete/${id}?userId=${this.userId}`,
+      `https://harvesthub-backend-7973.onrender.com/crop/delete/${id}?userId=${this.userId}`,
       { responseType: 'text' }
     )
     .subscribe({

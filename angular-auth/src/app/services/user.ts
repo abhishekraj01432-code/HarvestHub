@@ -13,7 +13,7 @@ export interface User {
 })
 export class UserService {
 
-  private apiUrl = 'http://localhost:8083/user';
+private apiUrl = 'https://harvesthub-backend-7973.onrender.com/user';
 
   constructor(private http: HttpClient) {}
 

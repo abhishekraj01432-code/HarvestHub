@@ -24,7 +24,7 @@ export class Equipment {
   purchaseDate = '';
   status = '';
 
-  private apiUrl = 'http://localhost:8083/equipment';
+  private apiUrl = 'https://harvesthub-backend-7973.onrender.com/equipment';
   private userId = Number(localStorage.getItem('userId'));
 
   constructor(
@@ -117,7 +117,6 @@ export class Equipment {
       newEquipment
     ).subscribe({
       next: (data) => {
-        // Update table immediately
         this.equipment = [...this.equipment, data];
 
         this.showForm = false;
@@ -153,12 +152,10 @@ export class Equipment {
       { responseType: 'text' }
     ).subscribe({
       next: () => {
-        // Remove only the deleted record
         this.equipment = this.equipment.filter(
           item => item.id !== id
         );
 
-        // Update S.No. immediately
         this.cdr.detectChanges();
 
         alert('Equipment deleted successfully');

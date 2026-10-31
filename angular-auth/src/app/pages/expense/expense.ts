@@ -24,7 +24,7 @@ export class Expense {
   expenseDate = '';
   description = '';
 
-  private apiUrl = 'http://localhost:8083/expense';
+  private apiUrl = 'https://harvesthub-backend-7973.onrender.com/expense';
 
   private userId = Number(localStorage.getItem('userId'));
 
@@ -96,19 +96,17 @@ export class Expense {
       return;
     }
 
-
-if (
-  !this.expenseType.trim() ||
-  this.amount === '' ||
-  this.amount === null ||
-  this.amount === undefined ||
-  !this.expenseDate ||
-  !this.description.trim()
-) {
-  alert('Please fill all fields');
-  return;
-}
-
+    if (
+      !this.expenseType.trim() ||
+      this.amount === '' ||
+      this.amount === null ||
+      this.amount === undefined ||
+      !this.expenseDate ||
+      !this.description.trim()
+    ) {
+      alert('Please fill all fields');
+      return;
+    }
 
     const expenseAmount = Number(this.amount);
 

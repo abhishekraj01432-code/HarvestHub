@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class Activity {
 
-  private apiUrl = 'http://localhost:8083/activity';
+private apiUrl = 'https://harvesthub-backend-7973.onrender.com/activity';
 
   activities: any[] = [];
 

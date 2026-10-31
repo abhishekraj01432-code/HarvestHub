@@ -24,7 +24,7 @@ export class Rotation {
   rotationDate = '';
   season = '';
 
-  private apiUrl = 'http://localhost:8083/rotation';
+  private apiUrl = 'https://harvesthub-backend-7973.onrender.com/rotation';
   private userId = Number(localStorage.getItem('userId'));
 
   constructor(
