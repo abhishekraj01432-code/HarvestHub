@@ -11,7 +11,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/expense")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {
+        "http://localhost:4200",
+        "https://harvest-hub-e7oe-theta.vercel.app"
+})
 public class ExpenseController {
 
     @Autowired

@@ -9,7 +9,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {
+        "http://localhost:4200",
+        "https://harvest-hub-e7oe-theta.vercel.app"
+})
 public class UserController {
 
     @Autowired
